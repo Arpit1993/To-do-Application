@@ -2,7 +2,9 @@ import styled from "@emotion/styled";
 import { useState, type ReactNode } from "react";
 import ArrowUpIcon from "../assets/ArrowUp";
 
-const AccordionWrapper = styled.article``;
+const AccordionWrapper = styled.article`
+  margin: 1rem 0;
+`;
 const AccordionTabWrapper = styled.div`
   position: relative;
 `;

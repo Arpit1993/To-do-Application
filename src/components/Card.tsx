@@ -73,25 +73,28 @@ export const CardComponent = (props: TCard) => {
   } = props;
 
   return (
-    <Card className={"card-content"}>
-      <ClockIcon />
-      <ContentWrapper>
-        <TitleStatusWrapper>
-          <Title>{title}</Title>
-          <StatusWrapper>
-            <p className={`${status.replace("_", "-")}`}></p>
-            <Status>{statusMap[status]}</Status>
-          </StatusWrapper>
-        </TitleStatusWrapper>
-        <p>{description}</p>
-        <DateActionWrapper currentStatus={status}>
-          <DateContent>{returnFormattedDate(time)}</DateContent>
-          <EditDeleteWrapper>
-            <PencilIcon onClick={() => onEditClick(taskId)} />
-            <DeleteIcon onClick={() => onDeleteClick(taskId, status)} />
-          </EditDeleteWrapper>
-        </DateActionWrapper>
-      </ContentWrapper>
-    </Card>
+    <>
+      <Card className={"card-content"}>
+        <ClockIcon />
+        <ContentWrapper>
+          <TitleStatusWrapper>
+            <Title>{title}</Title>
+            <StatusWrapper>
+              <p className={`${status.replace("_", "-")}`}></p>
+              <Status>{statusMap[status]}</Status>
+            </StatusWrapper>
+          </TitleStatusWrapper>
+          <p>{description}</p>
+          <DateActionWrapper currentStatus={status}>
+            <DateContent>{returnFormattedDate(time)}</DateContent>
+            <EditDeleteWrapper>
+              <PencilIcon onClick={() => onEditClick(taskId)} />
+              <DeleteIcon onClick={() => onDeleteClick(taskId, status)} />
+            </EditDeleteWrapper>
+          </DateActionWrapper>
+        </ContentWrapper>
+      </Card>
+      <hr style={{ border: "1px solid #DDDDDD" }} />
+    </>
   );
 };

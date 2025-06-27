@@ -13,6 +13,7 @@ import { statusMap } from "../constants";
 import Modal from "../components/Modal";
 import { ButtonComponent } from "../components/Button";
 import type { TaskList, Tasks } from "../types";
+import { InputComponent } from "../components/Input";
 
 const DashboardWrapper = styled.main``;
 const Header = styled.header`
@@ -54,7 +55,7 @@ export const Dashboard = () => {
   };
 
   const handleDeleteConfirmClick = () => {
-    const obj:Tasks = { ...tasks };
+    const obj: Tasks = { ...tasks };
     const list: TaskList[] = obj.mapList?.get(status);
     const filteredItems = list.filter((item) => item.taskId !== taskId);
     obj.mapList?.set(status, filteredItems);
@@ -67,10 +68,34 @@ export const Dashboard = () => {
       });
     });
     storeItemToLocalStorage("tasks", filteredList);
-    setTasksList({...obj});
+    setTasksList({ ...obj });
     setOpenModal(false);
     setTaskId("");
     setStatus("");
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const userInput = e.target.value;
+    const taskList = retrieveItemFromLocalStorage("tasks");
+    const filteredList = mapStatusToTask(taskList);
+    const _map = new Map();
+    const keys = [];
+
+    if (!userInput) {
+      setTasksList(filteredList);
+      return;
+    }
+    filteredList?.keys.forEach((statusKey, index) => {
+      if (statusKey.includes(userInput)) {
+        _map.set(statusKey, filteredList.mapList.get(statusKey));
+        keys.push(statusKey);
+        const obj = {
+          keys,
+          mapList: _map,
+        };
+        setTasksList(obj);
+      }
+    });
   };
 
   useEffect(() => {
@@ -85,6 +110,11 @@ export const Dashboard = () => {
       <Header>
         <p style={{ paddingLeft: "1rem" }}>TO-DO APP</p>
       </Header>
+      <InputComponent
+        placeholder="Search To-Do"
+        customStyles={{ margin: "1rem 0rem" }}
+        onChangeHandler={handleSearchChange}
+      />
       <AddButton onClick={() => navigate("/add")}>
         <PlusIcon
           style={{
@@ -99,8 +129,11 @@ export const Dashboard = () => {
         tasks.keys.map((status) => {
           const cards = tasks.mapList.get(status);
           return (
-            <Accordion label={`${statusMap[status]}(${cards.length})`} key={status}>
-              {cards.map((task: TaskList) => {
+            <Accordion
+              label={`${statusMap[status]}(${cards?.length})`}
+              key={status}
+            >
+              {cards?.map((task: TaskList) => {
                 return (
                   <CardComponent
                     time={task.time}
