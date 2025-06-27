@@ -114,6 +114,7 @@ export const Dashboard = () => {
         placeholder="Search To-Do"
         customStyles={{ margin: "1rem 0rem" }}
         onChangeHandler={handleSearchChange}
+        disabled={!tasks?.keys.length}
       />
       <AddButton onClick={() => navigate("/add")}>
         <PlusIcon
@@ -150,6 +151,12 @@ export const Dashboard = () => {
             </Accordion>
           );
         })}
+      {!tasks && (
+        <p style={{ textAlign: "center" }}>
+          There are no tasks to display. Please click the '+' button shown in
+          the bottom right to add a task.{" "}
+        </p>
+      )}
       <Modal isOpen={openModal} onClose={() => setOpenModal(false)}>
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           <p style={{ marginTop: "1rem" }}>

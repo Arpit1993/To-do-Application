@@ -16,13 +16,15 @@ const Input = styled.input`
 `;
 
 export const InputComponent = (props: TInput) => {
-  const { placeholder, onChangeHandler, customStyles, defaultValue } = props;
+  const { placeholder, onChangeHandler, customStyles, defaultValue, disabled } =
+    props;
   return (
     <Input
       placeholder={placeholder}
       onChange={onChangeHandler}
       style={customStyles}
       defaultValue={defaultValue}
+      disabled={disabled}
     />
   );
 };
